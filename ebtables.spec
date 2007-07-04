@@ -1,7 +1,7 @@
 %define	name	ebtables
 %define realver 2.0.8-1
 %define version %(echo %realver | sed 's/-/_/')
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define _ssp_cflags %nil
 
