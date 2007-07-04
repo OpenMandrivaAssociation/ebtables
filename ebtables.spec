@@ -3,6 +3,8 @@
 %define version %(echo %realver | sed 's/-/_/')
 %define release %mkrel 1
 
+%define _ssp_cflags %nil
+
 Summary:	A filtering tool for a bridging firewall
 Name:		%{name}
 Version:	%{version}
