@@ -15,6 +15,7 @@ URL:		http://ebtables.sourceforge.net/
 License:	GPL
 #BuildRequires:  kernel-source >= 2.6.0
 Requires:	kernel >= 2.6.0
+BuildRoot:	%{_tmppath}/%{name}-v%{version}-root
 
 %description
 The ebtables program is a filtering tool for a bridging firewall.
