@@ -1,7 +1,7 @@
 %define	name	ebtables
 %define realver 2.0.8-2
 %define version %(echo %realver | sed 's/-/_/')
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define _ssp_cflags %nil
 
@@ -14,7 +14,6 @@ Group:		System/Kernel and hardware
 URL:		http://ebtables.sourceforge.net/
 License:	GPL
 #BuildRequires:  kernel-source >= 2.6.0
-Requires:	kernel >= 2.6.0
 BuildRoot:	%{_tmppath}/%{name}-v%{version}-root
 
 %description
