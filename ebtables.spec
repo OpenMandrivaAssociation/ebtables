@@ -1,20 +1,18 @@
-%define	name	ebtables
 %define realver 2.0.8-2
 %define version %(echo %realver | sed 's/-/_/')
-%define release %mkrel 2
 
 %define _ssp_cflags %nil
 
 Summary:	A filtering tool for a bridging firewall
-Name:		%{name}
+Name:		ebtables
 Version:	%{version}
-Release:	%{release}
-Source:		%{name}-v%{realver}.tar.gz
+Release:	%mkrel 3
 Group:		System/Kernel and hardware
-URL:		http://ebtables.sourceforge.net/
 License:	GPL
+Source0:	%{name}-v%{realver}.tar.gz
+URL:		http://ebtables.sourceforge.net/
 #BuildRequires:  kernel-source >= 2.6.0
-BuildRoot:	%{_tmppath}/%{name}-v%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The ebtables program is a filtering tool for a bridging firewall.
@@ -41,7 +39,7 @@ Ethernet MAC addresses and implement a brouter.
 %endif
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_mandir}/man8
 install -d %{buildroot}%{_sysconfdir}
@@ -76,7 +74,7 @@ unset __iets2
 
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,0755)
