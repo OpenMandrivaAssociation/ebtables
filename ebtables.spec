@@ -1,12 +1,12 @@
 %define realver 2.0.8-2
-%define version %(echo %realver | sed 's/-/_/')
+%define version 2.0.9
 
 %define _ssp_cflags %nil
 
 Summary:	A filtering tool for a bridging firewall
 Name:		ebtables
 Version:	%{version}
-Release:	%mkrel 4
+Release:	%mkrel 1
 Group:		System/Kernel and hardware
 License:	GPL
 Source0:	%{name}-v%{realver}.tar.gz
