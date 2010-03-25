@@ -1,5 +1,5 @@
-%define realver 2.0.9-1
-%define version 2.0.9.1
+%define realver 2.0.9-2
+%define version 2.0.9.2
 
 %define _ssp_cflags %nil
 
@@ -21,11 +21,9 @@ Apart from filtering, it also gives the ability to alter the
 Ethernet MAC addresses and implement a brouter. 
 
 %prep
-
 %setup -q -n %{name}-v%{realver}
 
 %build
-
 #make CFLAGS="%{optflags} -fPIC" LIBDIR=/%{_lib}
 %make \
     CFLAGS="%{optflags} -fPIC"
