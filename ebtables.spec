@@ -47,6 +47,7 @@ install -d %{buildroot}/sbin
 %if %{?_with_static:1}%{?!_with_static:0}
 %{__install} -D -m0755 static %{buildroot}/sbin/ebtables-static
 %endif
+%{__install} -D -m0755 ebtables %{buildroot}/sbin/ebtables
 %{__install} -D -m0755 ebtables-restore %{buildroot}/sbin/ebtables-restore
 %{__install} -D -m0644 ethertypes %{buildroot}%{_sysconfdir}/ethertypes
 %{__install} -D -m0644 ebtables.8 %{buildroot}%{_mandir}/man8/ebtables.8
@@ -78,7 +79,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,0755)
 %doc ChangeLog INSTALL THANKS
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/ethertypes
-%attr(0755,root,root) /sbin/*
+%attr(0755,root,root) /sbin/ebtables
+%attr(0755,root,root) /sbin/ebtables-save
+%attr(0755,root,root) /sbin/ebtables-restore
 %attr(0644,root,root) %{_mandir}/man8/ebtables.8*
 %attr(0600,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
 %config %{_initrddir}/ebtables
