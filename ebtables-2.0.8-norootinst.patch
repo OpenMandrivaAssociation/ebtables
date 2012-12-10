@@ -1,8 +1,8 @@
-diff --git a/Makefile b/Makefile
-index c1106a4..fefc1ab 100644
---- a/Makefile
-+++ b/Makefile
-@@ -157,31 +157,31 @@ tmp3:=$(shell printf $(PIPE) | sed 's/\//\\\//g')
+Index: Makefile
+===================================================================
+--- Makefile
++++ Makefile	2012-03-05 17:37:37.380999952 +0100
+@@ -157,31 +157,31 @@
  scripts: ebtables-save ebtables.sysv ebtables-config
  	cat ebtables-save | sed 's/__EXEC_PATH__/$(tmp1)/g' > ebtables-save_
  	mkdir -p $(DESTDIR)$(BINDIR)
@@ -41,7 +41,7 @@ index c1106a4..fefc1ab 100644
  
  .PHONY: install
  install: $(MANDIR)/man8/ebtables.8 $(DESTDIR)$(ETHERTYPESFILE) exec scripts
-@@ -205,18 +205,18 @@ release:
+@@ -205,18 +205,18 @@
  	rm -f extensions/ebt_inat.c
  	rm -rf $(CVSDIRS)
  	mkdir -p include/linux/netfilter_bridge
@@ -51,17 +51,17 @@ index c1106a4..fefc1ab 100644
  # To keep possible compile error complaints about undefined ETH_P_8021Q
  # off my back
 -	install -m 0644 -o root -g root \
-+	install -m 0644  \
++	install -m 0644 \
  		$(KERNEL_INCLUDES)/linux/if_ether.h include/linux/
 -	install -m 0644 -o root -g root \
-+	install -m 0644  \
++	install -m 0644 \
  		$(KERNEL_INCLUDES)/linux/types.h include/linux/
 -	install -m 0644 -o root -g root \
-+	install -m 0644  \
++	install -m 0644 \
  		$(KERNEL_INCLUDES)/linux/netfilter_bridge/*.h \
  		include/linux/netfilter_bridge/
 -	install -m 0644 -o root -g root \
-+	install -m 0644  \
++	install -m 0644 \
  		include/ebtables.h include/linux/netfilter_bridge/
  	make clean
  	touch *
