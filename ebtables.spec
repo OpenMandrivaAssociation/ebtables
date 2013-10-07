@@ -2,7 +2,7 @@
 
 Name:			ebtables
 Version:		2.0.10
-Release:		3
+Release:		4
 Summary:		Ethernet Bridge frame table administration tool
 License:		GPLv2+
 Group:			System/Base
@@ -43,15 +43,17 @@ like iptables. There are no known incompatibility issues.
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
-MY_CFLAGS=`echo %optflags -fPIC | sed -e 's/-fstack-protector-strong//g' | sed -e 's/-fstack-protector//g'`
-%make CFLAGS="$MY_CFLAGS" LIBDIR="/%{_lib}/ebtables" BINDIR="/sbin" MANDIR="%{_mandir}"
+%make \
+    CFLAGS="%{optflags} -fPIC" \
+    LIBDIR=/%_lib/ebtables BINDIR="/sbin" MANDIR="%{_mandir}"
+
 
 %install
 mkdir -p %{buildroot}%{_initrddir}
 mkdir -p %{buildroot}%{_unitdir}
 install -p %{SOURCE3} %{buildroot}%{_unitdir}/
-mkdir -p %{buildroot}%{_libexecdir}
-install -m0755 %{SOURCE2} %{buildroot}%{_libexecdir}/ebtables
+mkdir -p %{buildroot}%{_prefix}/libexec
+install -m0755 %{SOURCE2} %{buildroot}%{_prefix}/libexec/ebtables
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 make DESTDIR="%{buildroot}" LIBDIR="/%{_lib}/ebtables" BINDIR="/sbin" MANDIR="%{_mandir}" install
 touch %{buildroot}%{_sysconfdir}/sysconfig/ebtables.filter
@@ -84,7 +86,7 @@ mv %{buildroot}/%{_lib}/ebtables/libebtc.so %{buildroot}/%{_lib}/
 %config(noreplace) %{_sysconfdir}/ethertypes
 %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
 %{_unitdir}/ebtables.service
-%{_libexecdir}/ebtables
+%{_prefix}/libexec/ebtables
 /%{_lib}/libebtc.so
 /%{_lib}/ebtables/
 /sbin/ebtables*
