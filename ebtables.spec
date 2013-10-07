@@ -2,7 +2,7 @@
 
 Name:			ebtables
 Version:		2.0.10
-Release:		4
+Release:		5
 Summary:		Ethernet Bridge frame table administration tool
 License:		GPLv2+
 Group:			System/Base
@@ -15,6 +15,7 @@ Patch0:			ebtables-2.0.10-norootinst.patch
 Patch3:			ebtables-2.0.9-lsb.patch
 Patch4:			ebtables-2.0.10-linkfix.patch
 Patch5:			ebtables-2.0.0-audit.patch
+Patch6:			05link_with_no-as-needed.patch
 BuildRequires:		systemd-units
 Requires(post):		rpm-helper
 Requires(preun):	rpm-helper
@@ -38,14 +39,21 @@ like iptables. There are no known incompatibility issues.
 # extension modules need to link to libebtc.so for ebt_errormsg
 %patch4 -p1 -b .linkfix
 %patch5 -p1 -b .AUDIT
+%patch6 -p1 -b .noasneeded
 
 # Convert to UTF-8
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
+
+
+
 %build
+sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
+        -e "s,^BINDIR:=.*,BINDIR:=/sbin," \
+        -e "s,^LIBDIR:=.*,LIBDIR:=/%{_lib}/\$(PROGNAME)," Makefile
 %make \
     CFLAGS="%{optflags} -fPIC" \
-    LIBDIR=/%_lib/ebtables BINDIR="/sbin" MANDIR="%{_mandir}"
+    LIBDIR=/%{_lib} BINDIR="/sbin" MANDIR="%{_mandir}"
 
 
 %install
@@ -55,7 +63,7 @@ install -p %{SOURCE3} %{buildroot}%{_unitdir}/
 mkdir -p %{buildroot}%{_prefix}/libexec
 install -m0755 %{SOURCE2} %{buildroot}%{_prefix}/libexec/ebtables
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-make DESTDIR="%{buildroot}" LIBDIR="/%{_lib}/ebtables" BINDIR="/sbin" MANDIR="%{_mandir}" install
+make DESTDIR="%{buildroot}" LIBDIR="/%{_lib}" BINDIR="/sbin" MANDIR="%{_mandir}" install
 touch %{buildroot}%{_sysconfdir}/sysconfig/ebtables.filter
 touch %{buildroot}%{_sysconfdir}/sysconfig/ebtables.nat
 touch %{buildroot}%{_sysconfdir}/sysconfig/ebtables.broute
@@ -66,9 +74,6 @@ rm -rf %{buildroot}%{_initrddir}
 # install ebtables-save bash script
 rm -f %{buildroot}/sbin/ebtables-save
 install %{SOURCE1} %{buildroot}/sbin/ebtables-save
-
-# move libebtc.so into the ldpath
-mv %{buildroot}/%{_lib}/ebtables/libebtc.so %{buildroot}/%{_lib}/
 
 %post
 %_post_service %{name}
@@ -87,8 +92,7 @@ mv %{buildroot}/%{_lib}/ebtables/libebtc.so %{buildroot}/%{_lib}/
 %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
 %{_unitdir}/ebtables.service
 %{_prefix}/libexec/ebtables
-/%{_lib}/libebtc.so
-/%{_lib}/ebtables/
+/%{_lib}/*.so
 /sbin/ebtables*
 %ghost %{_sysconfdir}/sysconfig/ebtables.filter
 %ghost %{_sysconfdir}/sysconfig/ebtables.nat
