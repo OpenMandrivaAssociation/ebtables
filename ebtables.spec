@@ -1,23 +1,23 @@
 %define ebminor 4
 
-Name:			ebtables
-Version:		2.0.10
-Release:		9
-Summary:		Ethernet Bridge frame table administration tool
-License:		GPLv2+
-Group:			System/Base
-URL:			http://ebtables.sourceforge.net/
-Source0:		http://downloads.sourceforge.net/ebtables/ebtables-v%{version}-%{ebminor}.tar.gz
-Source1:		ebtables-save
-Source2:		ebtables.systemd
-Source3:		ebtables.service
-Patch0:			ebtables-2.0.10-norootinst.patch
-Patch3:			ebtables-2.0.9-lsb.patch
-Patch4:			ebtables-2.0.10-linkfix.patch
-Patch5:			ebtables-2.0.0-audit.patch
-Patch6:			05link_with_no-as-needed.patch
-BuildRequires:		systemd-units
-Requires(post):		rpm-helper
+Name:		ebtables
+Version:	2.0.10
+Release:	10
+Summary:	Ethernet Bridge frame table administration tool
+License:	GPLv2+
+Group:		System/Base
+URL:		http://ebtables.sourceforge.net/
+Source0:	http://downloads.sourceforge.net/ebtables/ebtables-v%{version}-%{ebminor}.tar.gz
+Source1:	ebtables-save
+Source2:	ebtables.systemd
+Source3:	ebtables.service
+Patch0:		ebtables-2.0.10-norootinst.patch
+Patch3:		ebtables-2.0.9-lsb.patch
+Patch4:		ebtables-2.0.10-linkfix.patch
+Patch5:		ebtables-2.0.0-audit.patch
+Patch6:		05link_with_no-as-needed.patch
+BuildRequires:	systemd-units
+Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
 Requires(postun):	rpm-helper
 
@@ -45,9 +45,9 @@ like iptables. There are no known incompatibility issues.
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 
-
-
 %build
+%setup_compile_flags
+
 sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
         -e "s,^BINDIR:=.*,BINDIR:=/sbin," \
         -e "s,^LIBDIR:=.*,LIBDIR:=/%{_lib}/\$(PROGNAME)," Makefile
@@ -57,7 +57,6 @@ sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
 
 
 %install
-mkdir -p %{buildroot}%{_initrddir}
 mkdir -p %{buildroot}%{_unitdir}
 install -p %{SOURCE3} %{buildroot}%{_unitdir}/
 mkdir -p %{buildroot}%{_prefix}/libexec
