@@ -1,3 +1,4 @@
+%define _disable_ld_no_undefined 1
 %define ebminor 4
 
 Name:		ebtables
