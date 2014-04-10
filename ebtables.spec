@@ -1,5 +1,5 @@
 %define _disable_ld_no_undefined 1
-%define ebminor 4
+%define fversion 2.0.10-4
 
 Name:		ebtables
 Version:	2.0.10.4
@@ -8,7 +8,7 @@ Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 Group:		System/Base
 URL:		http://ebtables.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/ebtables/ebtables-v%{version}-%{ebminor}.tar.gz
+Source0:	http://downloads.sourceforge.net/ebtables/ebtables-v%{fversion}.tar.gz
 Source1:	ebtables-save
 Source2:	ebtables.systemd
 Source3:	ebtables.service
@@ -34,7 +34,7 @@ The ebtables tool can be used together with the other Linux filtering tools,
 like iptables. There are no known incompatibility issues.
 
 %prep
-%setup -q -n ebtables-v%{version}-%{ebminor}
+%setup -q -n ebtables-v%{fversion}
 %patch0 -p1 -b .norootinst
 %patch3 -p1 -b .lsb
 # extension modules need to link to libebtc.so for ebt_errormsg
