@@ -2,7 +2,7 @@
 %define ebminor 4
 
 Name:		ebtables
-Version:	2.0.10
+Version:	2.0.10.4
 Release:	10
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
