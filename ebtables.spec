@@ -4,7 +4,7 @@
 Summary:	A filtering tool for a bridging firewall
 Name:		ebtables
 Version:	%{version}
-Release:	%mkrel 2
+Release:	3
 Group:		System/Kernel and hardware
 License:	GPLv2+
 Source0:	%{name}-v%{realver}.tar.gz
