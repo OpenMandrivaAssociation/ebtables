@@ -3,7 +3,7 @@
 
 Name:		ebtables
 Version:	2.0.10.4
-Release:	13
+Release:	14
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 Group:		System/Base
@@ -18,9 +18,6 @@ Patch4:		ebtables-2.0.10-linkfix.patch
 Patch5:		ebtables-2.0.0-audit.patch
 Patch6:		05link_with_no-as-needed.patch
 BuildRequires:	systemd-units
-Requires(post):	rpm-helper
-Requires(preun):	rpm-helper
-Requires(postun):	rpm-helper
 
 %description
 Ethernet bridge tables is a firewalling tool to transparently filter network
@@ -45,7 +42,6 @@ like iptables. There are no known incompatibility issues.
 # Convert to UTF-8
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
-
 %build
 %setup_compile_flags
 
@@ -53,7 +49,7 @@ sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
         -e "s,^BINDIR:=.*,BINDIR:=/sbin," \
         -e "s,^LIBDIR:=.*,LIBDIR:=/%{_lib}/\$(PROGNAME)," Makefile
 %make \
-    CFLAGS="%{optflags} -fPIC" \
+    CC=%{__cc} CFLAGS="%{optflags} -fPIC" \
     LIBDIR=/%{_lib} BINDIR="/sbin" MANDIR="%{_mandir}"
 
 
@@ -74,15 +70,6 @@ rm -rf %{buildroot}%{_initrddir}
 # install ebtables-save bash script
 rm -f %{buildroot}/sbin/ebtables-save
 install %{SOURCE1} %{buildroot}/sbin/ebtables-save
-
-%post
-%_post_service %{name}
-
-%preun
-%_preun_service %{name}
-
-%postun
-%_postun_service %{name} 
 
 %files
 %defattr(-, root, root, 0755)
