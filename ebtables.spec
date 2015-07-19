@@ -3,7 +3,7 @@
 
 Name:		ebtables
 Version:	2.0.10.4
-Release:	14
+Release:	15
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 Group:		System/Base
