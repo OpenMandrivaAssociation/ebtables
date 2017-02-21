@@ -46,6 +46,10 @@ f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 %build
 %setup_compile_flags
 
+%ifarch aarch64
+%define __cc gcc
+%endif
+
 sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
         -e "s,^BINDIR:=.*,BINDIR:=/sbin," \
         -e "s,^LIBDIR:=.*,LIBDIR:=/%{_lib}/\$(PROGNAME)," Makefile
