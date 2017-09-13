@@ -3,7 +3,7 @@
 
 Name:		ebtables
 Version:	2.0.10.4
-Release:	18
+Release:	19
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 Group:		System/Base
@@ -22,7 +22,7 @@ Patch7:		0001-add-RARP-and-update-iana-url.patch
 # Move lockfile to /run/ebtables.lock
 Patch8:		ebtables-2.0.10-lockdirfix.patch
 Patch9:		ebtables-2.0.10-noflush.patch
-BuildRequires:	systemd
+BuildRequires:	pkgconfig(systemd)
 Conflicts:	setup < 2.8.9-5
 
 %description
@@ -60,7 +60,7 @@ sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
 
 %install
 mkdir -p %{buildroot}%{_unitdir}
-install -p %{SOURCE3} %{buildroot}%{_unitdir}/
+install -m0644 %{SOURCE3} %{buildroot}%{_unitdir}/
 mkdir -p %{buildroot}%{_prefix}/libexec
 install -m0755 %{SOURCE2} %{buildroot}%{_prefix}/libexec/ebtables
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
@@ -80,7 +80,6 @@ install %{SOURCE1} %{buildroot}/sbin/ebtables-save
 rm -f %{buildroot}%{_sysconfdir}/ethertypes
 
 %files
-%defattr(-, root, root, 0755)
 %doc ChangeLog COPYING THANKS
 %doc %{_mandir}/man8/ebtables.8*
 %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
