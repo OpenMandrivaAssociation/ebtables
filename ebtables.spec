@@ -3,7 +3,7 @@
 
 Name:		ebtables
 Version:	2.0.10.4
-Release:	19
+Release:	20
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 Group:		System/Base
@@ -55,7 +55,7 @@ sed -i -e "s,^MANDIR:=.*,MANDIR:=%{_mandir}," \
         -e "s,^LIBDIR:=.*,LIBDIR:=/%{_lib}/\$(PROGNAME)," Makefile
 %make \
     CC=%{__cc} CFLAGS="%{optflags} -fPIC" \
-    LIBDIR=/%{_lib} BINDIR="/sbin" MANDIR="%{_mandir}"
+    LIBDIR=/%{_lib} BINDIR="/sbin" MANDIR="%{_mandir}" LDFLAGS="%{optflags} -flto -Wl,-no-as-needed"
 
 
 %install
