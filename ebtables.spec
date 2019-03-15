@@ -58,7 +58,7 @@ like iptables. There are no known incompatibility issues.
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
-%make_build -j1 CC="%{__cc} CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
+%make_build -j1 CC="%{__cc}" CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
 
 %install
 mkdir -p %{buildroot}%{_initrddir}
