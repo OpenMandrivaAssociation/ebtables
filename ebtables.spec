@@ -1,6 +1,5 @@
 %global ebminor 4
 %global fullver 2.0.10-4
-%define _disable_ld_as_needed 1
 
 Name:		ebtables
 Version:	2.0.10.4
@@ -43,7 +42,7 @@ The ebtables tool can be used together with the other Linux filtering tools,
 like iptables. There are no known incompatibility issues.
 
 %prep
-%setup -q -n ebtables-v%{fullver}
+%setup -qn ebtables-v%{fullver}
 %patch0 -p1 -b .norootinst
 %patch3 -p1 -b .lsb
 # extension modules need to link to libebtc.so for ebt_errormsg
@@ -58,7 +57,8 @@ like iptables. There are no known incompatibility issues.
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
-%make_build -j1 CC="%{__cc}" CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
+%setup_compile_flags
+%make_build -j1 CC="%{__cc}" CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now -Wl,--no-as-needed"
 
 %install
 mkdir -p %{buildroot}%{_initrddir}
