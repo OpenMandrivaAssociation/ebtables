@@ -1,9 +1,10 @@
 %global ebminor 4
 %global fullver 2.0.10-4
+%define _disable_ld_as_needed 1
 
 Name:			ebtables
 Version:		2.0.10.4
-Release:		28%{?dist}
+Release:		29
 Summary:		Ethernet Bridge frame table administration tool
 License:		GPLv2+
 URL:			http://ebtables.sourceforge.net/
@@ -23,7 +24,8 @@ Patch7:			ebtables-2.0.10-lockdirfix.patch
 Patch8:			ebtables-2.0.10-noflush.patch
 
 BuildRequires:		gcc
-BuildRequires:		systemd
+BuildRequires:		systemd-macros
+BuildRequires:		pkgconfig(systemd)
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
@@ -56,7 +58,7 @@ like iptables. There are no known incompatibility issues.
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
-make %{?_smp_mflags} CFLAGS="${RPM_OPT_FLAGS}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="${RPM_LD_FLAGS} -Wl,-z,now"
+%make_build CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
 
 %install
 mkdir -p %{buildroot}%{_initrddir}
@@ -91,10 +93,10 @@ touch %{buildroot}%{_sbindir}/ebtables
 %post
 %systemd_post ebtables.service
 if [ "$(readlink -e %{_sbindir}/ebtables)" == %{_sbindir}/ebtables ]; then
-	rm -f %{_sbindir}/ebtables
+    rm -f %{_sbindir}/ebtables
 fi
 %{_sbindir}/update-alternatives --install \
-	%{_sbindir}/ebtables ebtables %{_sbindir}/ebtables-legacy 10
+    %{_sbindir}/ebtables ebtables %{_sbindir}/ebtables-legacy 10
 
 %preun
 %systemd_preun ebtables.service
@@ -102,7 +104,7 @@ fi
 %postun
 %systemd_postun_with_restart ebtables.service
 if [ $1 -eq 0 ]; then
-	%{_sbindir}/update-alternatives --remove ebtables %{_sbindir}/ebtables-legacy
+    %{_sbindir}/update-alternatives --remove ebtables %{_sbindir}/ebtables-legacy
 fi
 
 %files
