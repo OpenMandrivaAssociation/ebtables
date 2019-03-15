@@ -1,36 +1,35 @@
 %global ebminor 4
 %global fullver 2.0.10-4
-%undefine _ld_as_needed
+%define _disable_ld_as_needed 1
 
-Name:			ebtables
-Version:		2.0.10.4
-Release:		29
-Summary:		Ethernet Bridge frame table administration tool
-License:		GPLv2+
-URL:			http://ebtables.sourceforge.net/
-
-Source0:		http://downloads.sourceforge.net/ebtables/ebtables-v%{fullver}.tar.gz
-Source1:		ebtables-save
-Source2:		ebtables.systemd
-Source3:		ebtables.service
-Patch0:			ebtables-2.0.10-norootinst.patch
-Patch3:			ebtables-2.0.9-lsb.patch
-Patch4:			ebtables-2.0.10-linkfix.patch
-Patch5:			ebtables-2.0.0-audit.patch
+Name:		ebtables
+Version:	2.0.10.4
+Release:	29
+Summary:	Ethernet Bridge frame table administration tool
+License:	GPLv2+
+URL:		http://ebtables.sourceforge.net/
+Source0:	http://downloads.sourceforge.net/ebtables/ebtables-v%{fullver}.tar.gz
+Source1:	ebtables-save
+Source2:	ebtables.systemd
+Source3:	ebtables.service
+Patch0:		ebtables-2.0.10-norootinst.patch
+Patch3:		ebtables-2.0.9-lsb.patch
+Patch4:		ebtables-2.0.10-linkfix.patch
+Patch5:		ebtables-2.0.0-audit.patch
 # Upstream commit 5e126db0f
-Patch6:			0001-add-RARP-and-update-iana-url.patch
+Patch6:		0001-add-RARP-and-update-iana-url.patch
 # Move lockfile to /run/ebtables.lock
-Patch7:			ebtables-2.0.10-lockdirfix.patch
-Patch8:			ebtables-2.0.10-noflush.patch
-
-BuildRequires:		gcc
-BuildRequires:		systemd-macros
-BuildRequires:		pkgconfig(systemd)
-Requires(post):		systemd
+Patch7:		ebtables-2.0.10-lockdirfix.patch
+Patch8:		ebtables-2.0.10-noflush.patch
+Patch9:		no-as-needed.patch
+BuildRequires:	gcc
+BuildRequires:	systemd-macros
+BuildRequires:	pkgconfig(systemd)
+Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-Requires(post): %{_sbindir}/update-alternatives
-Requires(postun): %{_sbindir}/update-alternatives
+Requires(post):	%{_sbindir}/update-alternatives
+Requires(postun):	%{_sbindir}/update-alternatives
 
 %description
 Ethernet bridge tables is a firewalling tool to transparently filter network
@@ -53,12 +52,13 @@ like iptables. There are no known incompatibility issues.
 %patch6 -p1 -b .RARP
 %patch7 -p1 -b .lockdirfix
 %patch8 -p1 -b .noflush
+%patch9 -p1
 
 # Convert to UTF-8
 f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
-make CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
+%make_build -j1 CC="%{__cc} CFLAGS="%{optflags}" LIBDIR="/%{_lib}/ebtables" BINDIR="%{_sbindir}" MANDIR="%{_mandir}" LDFLAGS="%{ldflags} -Wl,-z,now"
 
 %install
 mkdir -p %{buildroot}%{_initrddir}
