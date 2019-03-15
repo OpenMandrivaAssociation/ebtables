@@ -1,5 +1,6 @@
 %global ebminor 4
 %global fullver 2.0.10-4
+%undefine _ld_as_needed
 
 Name:			ebtables
 Version:		2.0.10.4
