@@ -4,7 +4,7 @@
 
 Name:		ebtables
 Version:	2.0.10.4
-Release:	29
+Release:	30
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 URL:		http://ebtables.sourceforge.net/
@@ -91,6 +91,11 @@ rm -f %{buildroot}%{_sysconfdir}/ethertypes
 mv %{buildroot}%{_sbindir}/ebtables %{buildroot}%{_sbindir}/ebtables-legacy
 touch %{buildroot}%{_sbindir}/ebtables
 
+install -d %{buildroot}%{_presetdir}
+cat > %{buildroot}%{_presetdir}/86-ebtables.preset << EOF
+enable ebtables.service
+EOF
+
 %post
 %systemd_post ebtables.service
 if [ "$(readlink -e %{_sbindir}/ebtables)" == %{_sbindir}/ebtables ]; then
@@ -113,6 +118,7 @@ fi
 %doc ChangeLog THANKS
 %doc %{_mandir}/man8/ebtables.8*
 %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
+%{_presetdir}/86-ebtables.preset
 %{_unitdir}/ebtables.service
 %{_libexecdir}/ebtables
 /%{_lib}/libebtc.so
