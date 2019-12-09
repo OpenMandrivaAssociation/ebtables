@@ -3,8 +3,8 @@
 %define _disable_ld_no_undefined 1
 
 Name:		ebtables
-Version:	2.0.10.4
-Release:	30
+Version:	2.0.11
+Release:	1
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 URL:		http://ebtables.sourceforge.net/
