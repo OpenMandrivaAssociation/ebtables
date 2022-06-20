@@ -4,10 +4,10 @@
 
 Name:		ebtables
 Version:	2.0.11
-Release:	1
+Release:	2
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
-URL:		http://ebtables.sourceforge.net/
+URL:		https://www.netfilter.org/pub/ebtables/
 Source0:	http://downloads.sourceforge.net/ebtables/ebtables-v%{fullver}.tar.gz
 Source1:	ebtables-save
 Source2:	ebtables.systemd
@@ -53,9 +53,6 @@ like iptables. There are no known incompatibility issues.
 %patch7 -p1 -b .lockdirfix
 %patch8 -p1 -b .noflush
 %patch9 -p1
-
-# Convert to UTF-8
-f=THANKS; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 
 %build
 %setup_compile_flags
@@ -115,7 +112,7 @@ fi
 
 %files
 %license COPYING
-%doc ChangeLog THANKS
+%doc ChangeLog
 %doc %{_mandir}/man8/ebtables.8*
 %config(noreplace) %{_sysconfdir}/sysconfig/ebtables-config
 %{_presetdir}/86-ebtables.preset
