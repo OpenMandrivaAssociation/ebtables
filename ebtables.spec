@@ -4,7 +4,7 @@
 
 Name:		ebtables
 Version:	2.0.11
-Release:	2
+Release:	3
 Summary:	Ethernet Bridge frame table administration tool
 License:	GPLv2+
 URL:		https://www.netfilter.org/pub/ebtables/
