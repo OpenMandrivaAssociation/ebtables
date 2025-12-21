@@ -22,6 +22,7 @@ Patch6:		0001-add-RARP-and-update-iana-url.patch
 Patch7:		ebtables-2.0.10-lockdirfix.patch
 Patch8:		ebtables-2.0.10-noflush.patch
 Patch9:		no-as-needed.patch
+BuildRequires:	make
 BuildRequires:	gcc
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(systemd)
